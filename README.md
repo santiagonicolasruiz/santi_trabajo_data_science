@@ -10,6 +10,7 @@ Trabajos del curso de Data Science. El proyecto principal clasifica cada siniest
 |---|---|
 | `01_eda_y_limpieza_profunda.ipynb` | Diagnóstico de calidad: estructura, faltantes (incluidos los disfrazados, como `"SD"` y `"#¡REF!"`), duplicados, categorías mal escritas, edad, atípicos y coherencia interna. Después aplica la limpieza que ese diagnóstico justifica. |
 | `02_modelo_clasificacion_gravedad.ipynb` | **3ª pre-entrega.** Cubre todo el proceso: limpieza, EDA orientado al objetivo, preparación de variables, Regresión Logística y Random Forest, optimización con `GridSearchCV`, evaluación y selección del modelo. |
+| `03_clustering_siniestros.ipynb` | **4ª pre-entrega.** Aprendizaje no supervisado: AED para clustering, K-Means base, revisión, mejora, comparación con DBSCAN (variable nocturna, categorías raras agrupadas, PCA) con criterio explícito de selección de k e interpretación de los grupos. |
 | `Informe EDA/` | Informe del EDA en Word (versión completa y resumen) y sus gráficos. |
 | `Guía para limpieza y normalización de datos.ipynb` | Guía de referencia del curso. |
 | `Notebook_18_C14.ipynb`, `Santiago_Ruiz_practica_numpy5.ipynb` | Prácticas de clase. |
@@ -48,6 +49,15 @@ Los CSV (crudos y limpios) no se incluyen en el repositorio. Se descargan desde 
 - La proporción de siniestros graves o mortales **se triplica de madrugada**: alrededor de 16 % a las 3 h, contra 4 % a la tarde. También es mayor los fines de semana y en autopistas.
 - El **peatón** es la víctima más expuesta, seguido por la moto y el monopatín. Chocar contra un **objeto fijo** es lo más grave, y el **camión** concentra la mayor proporción de siniestros mortales.
 - La categoría `SIN DATOS` aparece casi siempre en siniestros leves, porque esos casos se registran con menos detalle. Es un sesgo de la fuente que el modelo también aprende.
+
+## Clustering (4ª pre-entrega)
+
+- **Algoritmo:** K-Means sobre las circunstancias del siniestro (hora, día, cantidad y edad de las víctimas, tipo de vía, modo de la víctima y contraparte). La gravedad no se usa para agrupar, sólo para validar.
+- **Modelo base:** todo estandarizado. Los grupos se armaban por una sola categoría rara, sin codo claro e inestables entre semillas (ARI 0,41).
+- **Mejora:** `nocturno` (21 a 5 h) y `fin_de_semana` en lugar de la hora y el día, indicadoras sin estandarizar, categorías con menos del 2 % agrupadas en `OTRO` y PCA al 80 % de la varianza.
+- **Criterio de selección:** estabilidad (ARI ≥ 0,95), ningún grupo menor al 2 % y mayor silueta → **k = 6** (silueta 0,38, ARI 1,00).
+- **Validación:** silueta por punto y comparación con DBSCAN, que fragmenta los datos (60 a 112 grupos) o junta el 62 % en un solo grupo, con silueta ≤ 0,32.
+- **Hallazgo:** el grupo de **personas mayores** (edad media 62 años) tiene 2,6 % de siniestros mortales, dos veces y media el promedio; los siniestros de día hábil, de día, son los más leves.
 
 ## Herramientas
 
