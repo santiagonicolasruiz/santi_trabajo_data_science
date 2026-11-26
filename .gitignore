@@ -1,3 +1,37 @@
+# ============================================================
+# DATOS: nunca se versionan (ver sección "Datos" del README)
+# ============================================================
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.parquet
+*.feather
+*.pkl
+*.pickle
+*.joblib
+*.h5
+*.keras
+*.db
+*.sqlite
+*.zip
+*.rar
+*.7z
+*.gz
+*.pdf
+*.docx
+*.pptx
+~$*
+data/
+datos/
+# Excepción: tablas chicas de métricas de los modelos
+!**/resultados_modelos.csv
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
